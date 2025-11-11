@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://localhost/plantacao/services/plantacaoSOAP.class.php" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://localhost/plantacao/services/plantacaoSOAP.class.php">
+
+<types>
+<xsd:schema targetNamespace="http://localhost/plantacao/services/plantacaoSOAP.class.php">
+<xsd:complexType name="dadosSecType">
+<xsd:sequence>
+	<xsd:element name="email" type="xsd:string"/>
+	<xsd:element name="senha" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:element name="security" type="tns:dadosSecType"/>
+	
+<xsd:complexType name="dadosTokType">
+<xsd:sequence>
+	<xsd:element name="token" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+
+<xsd:element name="token" type="tns:dadosTokType"/>
+</xsd:schema>
+</types>
+<message name="security">
+	<part name="sec" element="tns:security"/>
+</message>
+<message name="token">
+	<part name="tok" element="tns:token"/>
+</message>
+
+<message name="inserir_colheitaRequest"/>
+<message name="inserir_colheitaResponse">
+	<part name="retorno" type="xsi:string"/>
+</message>
+
+<message name="loginRequest"/>
+	
+
+<message name="loginResponse">
+	<part name="retorno" type="xsi:string"/>
+</message>
+
+<portType name="portType1">
+
+	<operation name="inserir_colheita">
+	
+		<documentation>Inserir Colheita</documentation>
+		
+		<input message="inserir_colheitaRequest"/>
+		
+		<output message="inserir_colheitaResponse"/>
+	</operation>
+	<operation name="login">
+	
+		<documentation>Autenticar usuário</documentation>
+		
+		<input message="loginRequest"/>
+		
+		<output message="loginResponse"/>
+	</operation>
+</portType>
+
+<binding name="binding1" type="tns:portType1">
+
+	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+	
+	<operation name="inserir_colheita">
+		<soap:operation soapAction="http://localhost/plantacao/services/plantacaoSOAP.class.php/inserir_colheita" style="rpc"/>
+		<input>
+			<soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="plantacao"/>
+		</input>
+		
+		<output>
+			<soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="plantacao"/>
+		</output>
+		
+	</operation>
+	<operation name="login">
+		<soap:operation soapAction="http://localhost/plantacao/services/plantacaoSOAP.class.php/login" style="rpc"/>
+		<input>
+			<soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="plantacao"/>
+			<soap:header use="literal" message="tns:security" namespace="plantacao" part="sec"/>
+		</input>
+		
+		<output>
+			<soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="plantacao"/>
+		</output>
+		
+	</operation>
+</binding>
+<service name="plantacaoSOAP">
+	<port name="tns:portType1" binding="tns:binding1">
+		<soap:address location="http://localhost/plantacao/services/plantacaoSOAP.class.php"/>
+	</port>
+</service>
+</definitions>

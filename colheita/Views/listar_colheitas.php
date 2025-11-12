@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-	
 	<head>
 		<title>Colheitas</title>
 		<meta charset="utf-8">

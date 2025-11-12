@@ -22,35 +22,61 @@
 			$retorno = $plantacaoDAO->inserir_area($area);
 			return json_encode($retorno);
 		}
+
+		public function Buscar_Areas()
+		{
+			$plantacaoDAO = new plantacaoDAO();
+			$retorno = $plantacaoDAO->buscar_todas_areas();
+			return json_encode($retorno);
+		}
 	}
 
-	if (isset($_GET['oper'])) {
+	// Roteador GET (para Buscar_Plantacao)
+   // Roteador GET (para Buscar_Plantacao E Buscar_Areas)
+	if (isset($_GET['oper'])) 
+	{
 		$operacao = $_GET['oper'];
 		$obj = new PlantacaoRest();
-	
-		if (method_exists($obj, $operacao)) {
-			$resultado = $obj->$operacao();
-			echo $resultado; // Envia a resposta JSON
-			exit; // Termina a execução
-		} else {
+
+		if (method_exists($obj, $operacao)) 
+		{
+			$resultado = $obj->$operacao(); 
+			echo $resultado; 
+			exit;
+		} 
+		else 
+		{
 			echo json_encode(["erro" => "Operação não encontrada"]);
 			exit;
 		}
 	}
-		// if($_POST)
-		// {	
-		// 	if(isset($_POST["oper"]))
-		// 	{
-		// 		$obj = new EditoraRest();
-		// 		$metodo = $_POST["oper"];
-				
-		// 		if($metodo == "buscar_por_autor")
-		// 		{
 
-		// 			$ret = $obj->$metodo($_POST["nome"]);
-		// 			exit($ret);
-		// 		}
-		// 	}
-		// }
+    // NOVO ROTEADOR POST (para inserir_area_rest)
+   if($_POST)
+    {
+        if(isset($_POST["oper"]))
+        {
+            $obj = new PlantacaoRest();
+            $metodo = $_POST["oper"];
+			if($metodo == "inserir_area_rest")
+			{
+                // 1. Coletar os dados do POST
+                // (O construtor espera tipos específicos: int, string, float)
+                $unidade = $_POST['unidade'];
+                $latitude = $_POST['latitude'];
+                $longitude = $_POST['longitude'];
+                $medida = (float)$_POST['medida'];
+				 $area = new Area(
+                    0,
+                    $unidade,
+                    $latitude,
+                    $longitude,
+                    $medida
+                );
+				$ret = $obj->$metodo($area); 
+				exit($ret); 
+			 }
+        }
+    }
 	
 ?>

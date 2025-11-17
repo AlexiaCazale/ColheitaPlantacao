@@ -51,16 +51,34 @@
 				$client = new SoapClient($wsdl_url, [
                     'cache_wsdl' => WSDL_CACHE_NONE
                 ]);
+                $colheita = new stdClass();
+                $colheita->idarea        = (int) $_POST['idarea'];
+                $colheita->idplantacao   = (int) $_POST['idplantacao'];
+                $colheita->unidade       = $_POST['unidade'];
+                $colheita->quantidade    = (float) $_POST['quantidade'];
+                $colheita->data_colheita = $_POST['data_colheita'];
 
-				$dadosColheita = [
-					'idplantacao' => $_POST['idplantacao'], 
-					'data_colheita' => $_POST['data_colheita'],
-					'quantidade' => $_POST['quantidade'],
-					'unidade' => $_POST['unidade']
-				];
+				// $dadosColheita = [
+                //     'idarea' => $_POST['idarea'],
+				// 	'idplantacao' => $_POST['idplantacao'], 
+				// 	'data_colheita' => $_POST['data_colheita'],
+				// 	'quantidade' => $_POST['quantidade'],
+				// 	'unidade' => $_POST['unidade']
+				// ];
+
+                $colheitaObj = (object)[
+                    "idarea"        => (int)$_POST['idarea'],
+                    "idplantacao"   => (int)$_POST['idplantacao'],
+                    "unidade"       => $_POST['unidade'],
+                    "quantidade"    => (float)$_POST['quantidade'],
+                    "data_colheita" => $_POST['data_colheita']
+                ];
 				
-				$retorno = $client->inserir_colheita_soap(['colheita' => $dadosColheita]); 
+				$retorno = $client->inserir_colheita_soap($colheita); 
 				
+
+                // $retorno = $client->inserir_colheita_soap($dadosColheita); 
+
 				echo "Colheita inserida via SOAP com sucesso!";
 				var_dump($retorno);
 

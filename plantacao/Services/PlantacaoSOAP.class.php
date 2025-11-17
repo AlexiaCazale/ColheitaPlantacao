@@ -19,29 +19,25 @@
 	{
 
 		//•	Para inserir a colheita por meio de um webservice soap com WSDL;
-		public function inserir_colheita_soap(array $colheita)
-        {
+		public function inserir_colheita_soap($colheita)
+        { 
             try {
-                // 2. LÓGICA ATUALIZADA: 
-                //    Trocamos '$dadosColheita' por '$colheita'
-                
-                // Criamos um objeto Area apenas com o ID que recebemos
-                $area = new Area((int)$colheita['idarea']);
+                // $colheita = $param['colheita'];
+                // $colheita = $param['colheita'];
 
-                // Criamos um objeto Plantacao apenas com o ID que recebemos
-                $plantacao = new Plantacao((int)$colheita['idplantacao']);
+                $area = new Area((int)$colheita->idarea);
 
-                // Criamos o objeto Colheita completo
+                $plantacao = new Plantacao((int)$colheita->idplantacao);
+
                 $colheitaObj = new Colheita(
                     0, // idcolheita (automático no banco)
-                    $area,
+                    $colheita->unidade,
+                    (float)$colheita->quantidade,
+                    $colheita->data_colheita,
                     $plantacao,
-                    $colheita['data_colheita'],
-                    (float)$colheita['quantidade'],
-                    $colheita['unidade']
+                    $area
                 );
 
-                // 3. AGORA CHAMAMOS O DAO com o objeto $colheitaObj completo
                 $plantacaoDAO = new plantacaoDAO();
                 $retorno = $plantacaoDAO->inserir_colheita_soap($colheitaObj);
                 

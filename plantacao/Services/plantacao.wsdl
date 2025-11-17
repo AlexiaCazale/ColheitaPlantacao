@@ -11,10 +11,26 @@
     targetNamespace="http://localhost/plantacao/services/plantacaoSOAP.class.php">
 
 <types>
-        <xsd:schema targetNamespace="http://localhost/plantacao/services/plantacaoSOAP.class.php"></xsd:schema>
+		<xsd:schema targetNamespace="http://localhost/plantacao/services/plantacaoSOAP.class.php">
+
+		<xsd:element name="Colheita" type="tns:Colheita"/>
+
+        <xsd:complexType name="Colheita">
+            <xsd:sequence>
+				<xsd:element name="idarea" type="xsd:int"/>
+				<xsd:element name="idplantacao" type="xsd:int"/>
+				<xsd:element name="unidade" type="xsd:string"/>
+				<xsd:element name="quantidade" type="xsd:float"/>
+				<xsd:element name="data_colheita" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+
+    </xsd:schema>
 </types>
 
-<message name="inserir_colheitaRequest"/>
+<message name="inserir_colheitaRequest">
+   <part name="colheita" element="tns:Colheita"/>
+</message>
 <message name="inserir_colheitaResponse">
 	<part name="retorno" type="xsd:string"/>
 </message>
@@ -32,13 +48,20 @@
 	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 	
 	<operation name="inserir_colheita_soap">
-		<soap:operation soapAction="http://localhost/plantacao/services/plantacaoSOAP.class.php/inserir_colheita_soap" style="rpc"/>
+		<soap:operation soapAction="http://localhost/plantacao/services/plantacaoSOAP.class.php/inserir_colheita_soap"/>
+	    <input>
+			<soap:body use="literal"/>
+		</input>
+		<output>
+			<soap:body use="literal"/>
+		</output>
+		<!-- <soap:operation soapAction="http://localhost/plantacao/services/plantacaoSOAP.class.php/inserir_colheita_soap" style="rpc"/>
 		<input>
 			<soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="plantacao"/>
 		</input>
 		<output>
 			<soap:body use="encode" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="plantacao"/>
-		</output>
+		</output> -->
 		
 	</operation>
 	

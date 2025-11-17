@@ -1,6 +1,6 @@
 <?php
     class Colheita{
-        public function __construct(private int $idcolheita = 0, private string $unidade = "", private float $quantidade = 0, private dateTime $data_colheita, private Plantacao $plantacao = new Plantacao(), private Area $area = new Area()){}
+        public function __construct(private int $idcolheita = 0, private string $unidade = "", private float $quantidade = 0, private string $data_colheita, private Plantacao $plantacao = new Plantacao(), private Area $area = new Area()){}
 		
         public function getIdColheita()
 		{

@@ -39,7 +39,7 @@
     <body>
         <h1>Inserir Área (REST)</h1>
         
-        <form action="index.php?controle=colheitaController&metodo=salvarAreaRest" method="POST">
+        <form action="index.php?controle=areaController&metodo=salvarAreaRest" method="POST">
             
             <div>
                 <label for="medida">Medida (Tamanho):</label>

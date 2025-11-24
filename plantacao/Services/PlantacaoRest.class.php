@@ -1,6 +1,7 @@
 <?php
 	require_once "../Models/Conexao.class.php";
-	require_once "../Models/plantacaoDAO.class.php";
+	require_once "../Models/DAO/plantacaoDAO.class.php";
+	require_once "../Models/DAO/areaDAO.class.php";
 	require_once "../Models/Colheita.class.php";
 	require_once "../Models/Plantacao.class.php";
 	require_once "../Models/Area.class.php";
@@ -16,23 +17,22 @@
 			$retorno = $plantacaoDAO->buscar_todas_plantacoes();
 			return json_encode($retorno);
 		}
+
 		public function inserir_area_rest(Area $area)	
 		{
-			$plantacaoDAO = new plantacaoDAO();
-			$retorno = $plantacaoDAO->inserir_area($area);
+			$areaDAO = new areaDAO();
+			$retorno = $areaDAO->inserir_area($area);
 			return json_encode($retorno);
 		}
 
 		public function Buscar_Areas()
 		{
-			$plantacaoDAO = new plantacaoDAO();
-			$retorno = $plantacaoDAO->buscar_todas_areas();
+			$areaDAO = new areaDAO();
+			$retorno = $areaDAO->buscar_todas_areas();
 			return json_encode($retorno);
 		}
 	}
 
-	// Roteador GET (para Buscar_Plantacao)
-   // Roteador GET (para Buscar_Plantacao E Buscar_Areas)
 	if (isset($_GET['oper'])) 
 	{
 		$operacao = $_GET['oper'];
@@ -51,7 +51,6 @@
 		}
 	}
 
-    // NOVO ROTEADOR POST (para inserir_area_rest)
    if($_POST)
     {
         if(isset($_POST["oper"]))
@@ -60,8 +59,6 @@
             $metodo = $_POST["oper"];
 			if($metodo == "inserir_area_rest")
 			{
-                // 1. Coletar os dados do POST
-                // (O construtor espera tipos específicos: int, string, float)
                 $unidade = $_POST['unidade'];
                 $latitude = $_POST['latitude'];
                 $longitude = $_POST['longitude'];
